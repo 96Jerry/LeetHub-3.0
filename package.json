@@ -5,12 +5,16 @@
   "description": "Automatically integrate your code with LeetCode and GitHub",
   "scripts": {
     "setup": "npm i",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,css,html}",
-    "format-test": "prettier --check **/*.{js,jsx,ts,tsx,css,html}",
-    "lint": "eslint **/*.{js,jsx,ts,tsx} --fix",
-    "lint-test": "eslint **/*.{js,jsx,ts,tsx} --color"
+    "format": "prettier --write **/*.js",
+    "format-test": "prettier --check **/*.js",
+    "lint": "eslint **/*.js --fix",
+    "lint-test": "eslint **/*.js --color"
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",

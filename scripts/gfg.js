@@ -11,17 +11,14 @@ const README_MSG = 'Create README - LeetHub';
 const SUBMIT_MSG = 'Added solution - LeetHub';
 const UPDATE_MSG = 'Updated solution - LeetHub';
 let START_MONITOR = true;
-const toKebabCase = (string) => {
-  return string
+const toKebabCase = string =>
+  string
     .replace(/[^a-zA-Z0-9\. ]/g, '') // remove special chars
     .replace(/([a-z])([A-Z])/g, '$1-$2') // get all lowercase letters that are near to uppercase ones
     .replace(/[\s_]+/g, '-') // replace all spaces and low dash
     .toLowerCase(); // convert to lower case
-};
-
 function findGfgLanguage() {
-  const ele = document.getElementsByClassName('divider text')[0]
-    .innerText;
+  const ele = document.getElementsByClassName('divider text')[0].innerText;
   const lang = ele.split('(')[0].trim();
   if (lang.length > 0 && languages[lang]) {
     return languages[lang];
@@ -30,8 +27,7 @@ function findGfgLanguage() {
 }
 
 function findTitle() {
-  const ele = document.querySelector('[class^="problems_header_content__title"] > h3')
-    .innerText;
+  const ele = document.querySelector('[class^="problems_header_content__title"] > h3').innerText;
   if (ele != null) {
     return ele;
   }
@@ -39,7 +35,8 @@ function findTitle() {
 }
 
 function findDifficulty() {
-  const ele = document.querySelectorAll('[class^="problems_header_description"]')[0].children[0].innerText;
+  const ele = document.querySelectorAll('[class^="problems_header_description"]')[0].children[0]
+    .innerText;
 
   if (ele != null) {
     if (ele.trim() == 'Basic' || ele.trim() === 'School') {
@@ -56,7 +53,6 @@ function getProblemStatement() {
 }
 
 function getCode() {
-
   const scriptContent = `
   var editor = ace.edit("ace-editor");
   var editorContent = editor.getValue();
@@ -69,11 +65,7 @@ function getCode() {
   var script = document.createElement('script');
   script.id = 'tmpScript';
   script.appendChild(document.createTextNode(scriptContent));
-  (
-    document.body ||
-    document.head ||
-    document.documentElement
-  ).appendChild(script);
+  (document.body || document.head || document.documentElement).appendChild(script);
   const text = document.getElementById('codeDataLeetHub').innerText;
 
   const nodeDeletionScript = `
@@ -82,11 +74,7 @@ function getCode() {
   var script = document.createElement('script');
   script.id = 'tmpScript';
   script.appendChild(document.createTextNode(nodeDeletionScript));
-  (
-    document.body ||
-    document.head ||
-    document.documentElement
-  ).appendChild(script);
+  (document.body || document.head || document.documentElement).appendChild(script);
 
   return text || '';
 }
@@ -98,23 +86,16 @@ const gfgLoader = setInterval(() => {
   let language = null;
   let difficulty = null;
 
-  if (
-    window.location.href.includes(
-      'practice.geeksforgeeks.org/problems',
-    )
-  ) {
+  if (window.location.href.includes('practice.geeksforgeeks.org/problems')) {
+    const submitBtn = document
+      .evaluate(".//button[text()='Submit']", document.body, null, XPathResult.ANY_TYPE, null)
+      .iterateNext();
 
-    const submitBtn = document.evaluate(".//button[text()='Submit']", document.body, null, XPathResult.ANY_TYPE, null).iterateNext();
-
-    submitBtn.addEventListener('click', function () {
+    submitBtn.addEventListener('click', () => {
       START_MONITOR = true;
       const submission = setInterval(() => {
-        const output = document.querySelectorAll('[class^="problems_content"]')[0]
-          .innerText;
-        if (
-          output.includes('Problem Solved Successfully') &&
-          START_MONITOR
-        ) {
+        const output = document.querySelectorAll('[class^="problems_content"]')[0].innerText;
+        if (output.includes('Problem Solved Successfully') && START_MONITOR) {
           // clear timeout
           START_MONITOR = false;
           clearInterval(gfgLoader);
@@ -133,7 +114,7 @@ const gfgLoader = setInterval(() => {
 
           // if language was found
           if (language !== null) {
-            chrome.storage.local.get('stats', (s) => {
+            chrome.storage.local.get('stats', s => {
               const { stats } = s;
               const fileName = toKebabCase(title + language);
               const filePath = probName + fileName;
@@ -162,7 +143,7 @@ const gfgLoader = setInterval(() => {
               // }
 
               if (code !== '') {
-                setTimeout(function () {
+                setTimeout(() => {
                   uploadGit(
                     btoa(unescape(encodeURIComponent(code))),
                     probName,
@@ -182,8 +163,7 @@ const gfgLoader = setInterval(() => {
           clearInterval(submission);
         } else if (
           !START_MONITOR &&
-          (output.includes('Compilation Error') ||
-            output.includes('Correct Answer'))
+          (output.includes('Compilation Error') || output.includes('Correct Answer'))
         ) {
           clearInterval(submission);
         }

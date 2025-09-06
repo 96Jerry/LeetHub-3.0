@@ -1,0 +1,4 @@
+node_modules/
+*.min.js
+scripts/semantic-2.4.1.min.js
+scripts/jquery-3.3.1.min.js
